@@ -19,3 +19,5 @@ class Valuestore:
                 return 1  
             self.store[k] = v
             return 0 
+        
+kv = Valuestore()
