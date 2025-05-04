@@ -28,3 +28,15 @@ def myclient(mysocket,address):
             break
         if ' ' not in data:
             response = "ERROR: Wrong order"
+        else:
+            cmd, content = data.split(maxsplit=1)
+            if cmd == "READ":
+                response = f"SERVER:{kv.read(content)}"
+            elif cmd == "GET":
+                response = f"SERVER:{kv.get(content)}"
+            elif cmd == "PUT":
+                cmd1,content1=content.split(maxsplit=1)
+                response = f"LAB:{kv.put(cmd1, content1)}"
+            else:
+                response = "ERROR: Unknown command"
+        mysocket.send(response.encode())
