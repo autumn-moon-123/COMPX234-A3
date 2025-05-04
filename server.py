@@ -1,6 +1,6 @@
 import socket
 import threading
-
+import time
 class Valuestore:
     def __init__(self):
         self.store = {} 
@@ -42,9 +42,21 @@ def myclient(mysocket,address):
         mysocket.send(response.encode())
 HOST = '127.0.0.1'
 PORT = 56789
+def printallstore():
+    while True:
+        with kv.lock:
+            storecopy = kv.store.copy()  # 加锁获取副本
 
+        print("\n10s output")  # 添加分隔线更清晰
+        for k, v in storecopy.items():
+            print(f"{k}: {v}")  # 打印每个键值对
+        time.sleep(10)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen(5)
 print(f" start server {HOST}:{PORT}...")
 print_thread = threading.Thread(
+    target=printallstore,
+    daemon=True
+)
+print_thread.start()
