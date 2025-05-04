@@ -46,3 +46,5 @@ PORT = 56789
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen(5)
+print(f" start server {HOST}:{PORT}...")
+print_thread = threading.Thread(
