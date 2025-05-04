@@ -14,3 +14,8 @@ class Valuestore:
     def put(self, k, v):
         if len(f"{k} {v}") > 970:
             return 2
+        with self.lock:
+            if k in self.store:
+                return 1  
+            self.store[k] = v
+            return 0 
