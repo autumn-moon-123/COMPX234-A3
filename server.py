@@ -40,3 +40,9 @@ def myclient(mysocket,address):
             else:
                 response = "ERROR: Unknown command"
         mysocket.send(response.encode())
+HOST = '127.0.0.1'
+PORT = 56789
+
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind((HOST, PORT))
+server_socket.listen(5)
