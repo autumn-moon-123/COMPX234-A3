@@ -45,11 +45,11 @@ PORT = 56789
 def printallstore():
     while True:
         with kv.lock:
-            storecopy = kv.store.copy()  # 加锁获取副本
+            storecopy = kv.store.copy()  
 
-        print("\n10s output")  # 添加分隔线更清晰
+        print("\n10s output") 
         for k, v in storecopy.items():
-            print(f"{k}: {v}")  # 打印每个键值对
+            print(f"{k}: {v}")  
         time.sleep(10)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
@@ -60,3 +60,12 @@ print_thread = threading.Thread(
     daemon=True
 )
 print_thread.start()
+try:
+    while True:
+        client_socket, address = server_socket.accept()
+        threading.Thread(myclient, args=(client_socket, address)).start()
+
+except KeyboardInterrupt:
+        print("\n stop..")
+finally:
+        server_socket.close()
