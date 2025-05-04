@@ -21,3 +21,10 @@ class Valuestore:
             return 0 
         
 kv = Valuestore()
+def myclient(mysocket,address):
+    while True:
+        data = mysocket.recv(1024).decode('utf-8').strip()
+        if not data:
+            break
+        if ' ' not in data:
+            response = "ERROR: Wrong order"
