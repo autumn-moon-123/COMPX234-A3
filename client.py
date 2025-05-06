@@ -20,3 +20,10 @@ def send_commands(filename):
         print(f"Error reading file: {e}")
     finally:
         client_socket.close()
+
+HOST = '127.0.0.1' 
+PORT = 56789
+
+client_socket = socket.socket()
+client_socket.connect((HOST, PORT))
+threading.Thread(target=receive, daemon=True).start()
