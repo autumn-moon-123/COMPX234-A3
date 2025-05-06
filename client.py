@@ -1,6 +1,6 @@
 import socket
 import threading
-
+import time
 def receive():
     while True:
         data = client_socket.recv(1024).decode('utf-8')
@@ -27,3 +27,16 @@ PORT = 56789
 client_socket = socket.socket()
 client_socket.connect((HOST, PORT))
 threading.Thread(target=receive, daemon=True).start()
+print("connected ok")
+import sys
+while(1):
+    if len(sys.argv) > 1:
+        send_commands(sys.argv[1])
+        time.sleep(30)
+        break
+    else:
+        print("Usage: python client.py <command_file.txt>")
+        time.sleep(30)
+
+
+client_socket.close()
