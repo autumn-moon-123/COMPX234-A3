@@ -63,7 +63,7 @@ print_thread.start()
 try:
     while True:
         client_socket, address = server_socket.accept()
-        threading.Thread(myclient, args=(client_socket, address)).start()
+        threading.Thread(target=myclient, args=(client_socket, address)).start()
 
 except KeyboardInterrupt:
         print("\n stop..")
