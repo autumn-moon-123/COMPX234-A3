@@ -13,7 +13,7 @@ def send_commands(filename):
                 response = client_socket.recv(1024).decode('utf-8').strip()
                 print(response)
                 time.sleep(0.1)
-        return True
+
 
     
 if __name__ == "__main__":
@@ -22,8 +22,6 @@ if __name__ == "__main__":
 
 client_socket = socket.socket()
 client_socket.connect((HOST, PORT))
-threading.Thread(target=receive, daemon=True).start()
-print("connected ok")
 
 while(1):
     if len(sys.argv) > 1:
