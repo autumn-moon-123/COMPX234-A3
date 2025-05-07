@@ -4,24 +4,42 @@ import time
 import sys
 import os
 def receive():
+
     while True:
-        data = client_socket.recv(1024).decode('utf-8')
-        print(f"\n{data}")
+        try:
+            data = client_socket.recv(1024).decode('utf-8')
+            if not data:
+                break
+            print(f"\n[Server] {data}")
+        except ConnectionResetError:
+            break
+        except Exception as e:
+            break
+
 
 def send_commands(filename):
     try:
-        if filename:  
-            with open(filename, 'r', encoding='utf-8') as file:
-                for line in file:
-                    if command := line.strip():
-                        print(f"[Sending] {command}")
-                        client_socket.sendall(command.encode('utf-8'))
-                        time.sleep(0.3)
-    except FileNotFoundError:
-        print(f"[Error] File '{filename}' not found")
+        if not os.path.exists(filename):
+            print(f"[Error] File not found: {filename}")
+            return False
+
+        print(f"[Executing: {filename}]")
+        with open(filename, 'r', encoding='utf-8') as file:
+            for line in file:
+                if command := line.strip():
+                    client_socket.sendall(command.encode('utf-8'))
+                    time.sleep(0.1)
+        return True
     except Exception as e:
         print(f"[Error] {str(e)}")
-
+        return False
+    
+def interactive_filename_input():
+    print("Enter command file ")
+    while True:
+        user_input = input("> ").strip()
+        if send_commands(user_input):
+            print(f"Done")
 HOST = '127.0.0.1' 
 PORT = 56789
 
