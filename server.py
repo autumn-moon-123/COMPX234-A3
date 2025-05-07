@@ -30,16 +30,30 @@ def myclient(mysocket,address):
             response = "ERROR: Wrong order"
         else:
             cmd, content = data.split(maxsplit=1)
-            if cmd == "READ":
-                response = f"SERVER:{kv.read(content)}"
-            elif cmd == "GET":
-                response = f"SERVER:{kv.get(content)}"
-            elif cmd == "PUT":
-                   k, v = content.split(maxsplit=1)
-                   response = f"STATUS:{kv.put(k, v)}"
+        if cmd == "READ":
+         value = kv.read(content)
+         if value:
+          response = f"READ {content}: OK ({content}, {value}) read"
+         else:
+          response = f"READ {content}: ERR {content} does not exist"
+
+        elif cmd == "GET":
+            value = kv.get(content)
+            if value:
+              response = f"GET {content}: OK ({content}, {value}) removed"
             else:
-                response = "ERROR: Unknown command"
-        mysocket.send(response.encode())
+                response = f"GET {content}: ERR {content} does not exist"
+
+        elif cmd == "PUT":
+         k, v = content.split(maxsplit=1)
+         status = kv.put(k, v)
+         if status == 0:
+          response = f"PUT {k} {v}: OK ({k}, {v}) added"
+         elif status == 1:
+          response = f"PUT {k} {v}: ERR {k} exists"
+        else:
+            response = f"PUT {k} {v}: ERR value too long"
+            mysocket.send(response.encode())
 HOST = '127.0.0.1'
 PORT = 56789
 def printallstore():
