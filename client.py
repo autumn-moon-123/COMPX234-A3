@@ -5,7 +5,7 @@ import sys
 import os
 
 def send_commands(filename):
-  try:
+
     with open(filename, 'r', encoding='utf-8') as file:
         for line in file:
             if command := line.strip():
@@ -14,9 +14,7 @@ def send_commands(filename):
                 print(response)
                 time.sleep(0.1)
         return True
-  except Exception as e:
-        print(f"[Error] {str(e)}")
-        return False
+
     
 if __name__ == "__main__":
     HOST = '127.0.0.1' 
