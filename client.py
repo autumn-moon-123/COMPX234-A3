@@ -18,14 +18,9 @@ def send_commands(filename):
         print(f"[Error] {str(e)}")
         return False
     
-def interactive_filename_input():
-    print("Enter command file ")
-    while True:
-        user_input = input("> ").strip()
-        if send_commands(user_input):
-            print(f"Done")
-HOST = '127.0.0.1' 
-PORT = 56789
+if __name__ == "__main__":
+    HOST = '127.0.0.1' 
+    PORT = 56789
 
 client_socket = socket.socket()
 client_socket.connect((HOST, PORT))
