@@ -32,29 +32,24 @@ def myclient(mysocket,address):
         cmd, content = data.split(maxsplit=1)
         
         if cmd == "READ":
-         value = kv.read(content)
-         if value:
-          response = f"READ {content}: OK ({content}, {value}) read"
-         else:
-          response = f"READ {content}: ERR {content} does not exist"
+            value = kv.read(content)
+            response = f"READ {content}: OK ({content}, {value}) read" if value else f"READ {content}: ERR {content} does not exist"
 
         elif cmd == "GET":
             value = kv.get(content)
-            if value:
-              response = f"GET {content}: OK ({content}, {value}) removed"
-            else:
-                response = f"GET {content}: ERR {content} does not exist"
+            response = f"GET {content}: OK ({content}, {value}) removed" if value else f"GET {content}: ERR {content} does not exist"
 
         elif cmd == "PUT":
-         k, v = content.split(maxsplit=1)
-         status = kv.put(k, v)
-         if status == 0:
-          response = f"PUT {k} {v}: OK ({k}, {v}) added"
-         elif status == 1:
-          response = f"PUT {k} {v}: ERR {k} exists"
-        else:
-            response = f"PUT {k} {v}: ERR value too long"
-            mysocket.send(response.encode())
+            k, v = content.split(maxsplit=1)
+            status = kv.put(k, v)
+            if status == 0:
+                response = f"PUT {k} {v}: OK ({k}, {v}) added"
+            elif status == 1:
+                response = f"PUT {k} {v}: ERR {k} exists"
+            else:
+                response = f"PUT {k} {v}: ERR value too long"
+
+        mysocket.send(response.encode())
 HOST = '127.0.0.1'
 PORT = 56789
 def printallstore():
