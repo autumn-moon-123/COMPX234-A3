@@ -18,8 +18,7 @@ def send_commands(filename):
         print(f"Error: File '{filename}' not found")
     except Exception as e:
         print(f"Error reading file: {e}")
-    finally:
-        client_socket.close()
+
 
 HOST = '127.0.0.1' 
 PORT = 56789
