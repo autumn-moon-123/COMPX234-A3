@@ -26,10 +26,11 @@ def myclient(mysocket,address):
         data = mysocket.recv(1024).decode('utf-8').strip()
         if not data:
             break
-        if ' ' not in data:
-            response = "ERROR: Wrong order"
-        else:
-            cmd, content = data.split(maxsplit=1)
+        if '_' in data and data.split('_')[0] in ['READ', 'GET', 'PUT']:
+            data = data.replace('_', ' ', 1)
+
+        cmd, content = data.split(maxsplit=1)
+        
         if cmd == "READ":
          value = kv.read(content)
          if value:
