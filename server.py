@@ -35,8 +35,8 @@ def myclient(mysocket,address):
             elif cmd == "GET":
                 response = f"SERVER:{kv.get(content)}"
             elif cmd == "PUT":
-                cmd1,content1=content.split(maxsplit=1)
-                response = f"LAB:{kv.put(cmd1, content1)}"
+                   k, v = content.split(maxsplit=1)
+                   response = f"STATUS:{kv.put(k, v)}"
             else:
                 response = "ERROR: Unknown command"
         mysocket.send(response.encode())
