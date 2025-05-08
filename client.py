@@ -23,14 +23,11 @@ if __name__ == "__main__":
 client_socket = socket.socket()
 client_socket.connect((HOST, PORT))
 
-while(1):
-    if len(sys.argv) > 1:
-        send_commands(sys.argv[1])
-        time.sleep(30)
-        break
-    else:
-        print("Usage: python client.py <command_file.txt>")
-        time.sleep(30)
+for i in range(1, 11):
+    filename = f"client_{i}.txt"
+    if os.path.exists(filename):
+        send_commands(filename)
+        time.sleep(0.5)
 
 
 client_socket.close()
